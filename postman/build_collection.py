@@ -42,7 +42,7 @@ def series(closes, start=date(2026, 1, 5)) -> list[dict]:
     for c in closes:
         while d.weekday() >= 5:
             d += timedelta(days=1)
-        out.append({"date": d.isoformat(), "close": round(float(c), 4)})
+        out.append({"date": d.isoformat(), "close": float(c)})  # exact floats, no rounding
         d += timedelta(days=1)
     return out
 

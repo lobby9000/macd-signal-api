@@ -39,6 +39,14 @@ Fix: values within 1e-9 times the largest close are treated as exactly zero befo
 
 TC-NUM-010 passes (first `bullish_cross` after the turn). TC-NUM-011 added: 40 identical closes produce no events.
 
+## Open question for the product owner
+
+The tolerance removes rounding noise, not small genuine crossings. While
+building the Postman version of TC-NUM-010, the same straight line rounded to
+four decimals produced real crossings of about 1e-6 before the turn. Whether
+tiny crossings should be filtered with a minimum histogram size (hysteresis) is
+a product decision, so it is recorded here and left out of 1.0.
+
 ## History
 
 | Date | Build | Event |

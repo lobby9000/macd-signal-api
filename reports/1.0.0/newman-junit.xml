@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="MACD Signal API" tests="17" time="0.214">
+  <testsuite name="TC-API-001 Health" id="bd3eab54-65a8-462f-b8a4-ad52715ed5de" timestamp="2026-10-09T00:50:40.106Z" tests="2" failures="0" errors="0" time="0.025">
+    <testcase name="Response time under 2 s" time="0.025" classname="TcApi001Health"/>
+    <testcase name="TC-API-001 status 200" time="0.025" classname="TcApi001Health"/>
+  </testsuite>
+  <testsuite name="TC-API-002 Daily MACD on 60 periods" id="d0aa85d1-9fe1-4af3-8cf1-5869d7b1bf1a" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.022">
+    <testcase name="Response time under 2 s" time="0.022" classname="TcApi002DailyMacdOn60Periods"/>
+    <testcase name="TC-API-002 status 200" time="0.022" classname="TcApi002DailyMacdOn60Periods"/>
+    <testcase name="TC-API-002 shape and first signal at t=34" time="0.022" classname="TcApi002DailyMacdOn60Periods"/>
+  </testsuite>
+  <testsuite name="TC-API-005 33 periods are not enough" id="f93288ff-3124-4aec-951e-dbfa702304e3" timestamp="2026-10-09T00:50:40.106Z" tests="5" failures="0" errors="0" time="0.005">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.005" classname="TcApi00533PeriodsAreNotEnough"/>
+    <testcase name="Response time under 2 s" time="0.005" classname="TcApi00533PeriodsAreNotEnough"/>
+    <testcase name="TC-API-005 status 422" time="0.005" classname="TcApi00533PeriodsAreNotEnough"/>
+    <testcase name="TC-API-005 code INSUFFICIENT_DATA" time="0.005" classname="TcApi00533PeriodsAreNotEnough"/>
+    <testcase name="TC-API-005 required and available" time="0.005" classname="TcApi00533PeriodsAreNotEnough"/>
+  </testsuite>
+  <testsuite name="TC-API-005 34 periods give exactly one signal value" id="cf502768-a3c3-43d6-bfd1-2e4a3b426fb6" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.014">
+    <testcase name="Response time under 2 s" time="0.014" classname="TcApi00534PeriodsGiveExactlyOneSignalValue"/>
+    <testcase name="TC-API-005 status 200" time="0.014" classname="TcApi00534PeriodsGiveExactlyOneSignalValue"/>
+    <testcase name="TC-API-005 one signal value" time="0.014" classname="TcApi00534PeriodsGiveExactlyOneSignalValue"/>
+  </testsuite>
+  <testsuite name="TC-API-004 fast must be below slow" id="6d50d7f2-25d6-484a-935e-ed50d5ffe95d" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.003" classname="TcApi004FastMustBeBelowSlow"/>
+    <testcase name="Response time under 2 s" time="0.003" classname="TcApi004FastMustBeBelowSlow"/>
+    <testcase name="TC-API-004 status 422" time="0.003" classname="TcApi004FastMustBeBelowSlow"/>
+    <testcase name="TC-API-004 code INVALID_CONFIG" time="0.003" classname="TcApi004FastMustBeBelowSlow"/>
+  </testsuite>
+  <testsuite name="TC-API-006 Close must be positive" id="c820138e-e8cf-4e34-9321-b49113c20f82" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.018">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.018" classname="TcApi006CloseMustBePositive"/>
+    <testcase name="Response time under 2 s" time="0.018" classname="TcApi006CloseMustBePositive"/>
+    <testcase name="TC-API-006 status 422" time="0.018" classname="TcApi006CloseMustBePositive"/>
+    <testcase name="TC-API-006 code VALIDATION_ERROR" time="0.018" classname="TcApi006CloseMustBePositive"/>
+  </testsuite>
+  <testsuite name="TC-API-007 Repeated date" id="c31a8a7f-6c56-45d6-8336-ddffb705cb9d" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.007">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.007" classname="TcApi007RepeatedDate"/>
+    <testcase name="Response time under 2 s" time="0.007" classname="TcApi007RepeatedDate"/>
+    <testcase name="TC-API-007 status 422" time="0.007" classname="TcApi007RepeatedDate"/>
+    <testcase name="TC-API-007 code DUPLICATE_DATE" time="0.007" classname="TcApi007RepeatedDate"/>
+  </testsuite>
+  <testsuite name="TC-API-007 Dates out of order" id="e4965313-b976-4f81-a32f-488b57e98975" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.003" classname="TcApi007DatesOutOfOrder"/>
+    <testcase name="Response time under 2 s" time="0.003" classname="TcApi007DatesOutOfOrder"/>
+    <testcase name="TC-API-007 status 422" time="0.003" classname="TcApi007DatesOutOfOrder"/>
+    <testcase name="TC-API-007 code UNSORTED_DATES" time="0.003" classname="TcApi007DatesOutOfOrder"/>
+  </testsuite>
+  <testsuite name="TC-API-009 asof before the first price" id="37ba4921-15bd-4fbe-ba91-50b55f093801" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.004">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.004" classname="TcApi009AsofBeforeTheFirstPrice"/>
+    <testcase name="Response time under 2 s" time="0.004" classname="TcApi009AsofBeforeTheFirstPrice"/>
+    <testcase name="TC-API-009 status 422" time="0.004" classname="TcApi009AsofBeforeTheFirstPrice"/>
+    <testcase name="TC-API-009 code INVALID_ASOF" time="0.004" classname="TcApi009AsofBeforeTheFirstPrice"/>
+  </testsuite>
+  <testsuite name="TC-NUM-010 Straight decline then rise: first bullish cross after the turn" id="d51228e9-c932-44e8-bebf-5a765663d3d1" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.028">
+    <testcase name="Response time under 2 s" time="0.028" classname="TcNum010StraightDeclineThenRiseFirstBullishCrossAfterTheTurn"/>
+    <testcase name="TC-NUM-010 status 200" time="0.028" classname="TcNum010StraightDeclineThenRiseFirstBullishCrossAfterTheTurn"/>
+    <testcase name="TC-NUM-010 no false events before the turn" time="0.028" classname="TcNum010StraightDeclineThenRiseFirstBullishCrossAfterTheTurn"/>
+  </testsuite>
+  <testsuite name="TC-NUM-011 Flat prices produce no events" id="fc730fb7-1e04-4b02-ac75-d40f055c7322" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.014">
+    <testcase name="Response time under 2 s" time="0.014" classname="TcNum011FlatPricesProduceNoEvents"/>
+    <testcase name="TC-NUM-011 status 200" time="0.014" classname="TcNum011FlatPricesProduceNoEvents"/>
+    <testcase name="TC-NUM-011 events empty" time="0.014" classname="TcNum011FlatPricesProduceNoEvents"/>
+  </testsuite>
+  <testsuite name="TC-REG-001 Partial week is not a close (asof Wednesday)" id="8fcd2844-7bde-4139-b152-7d7d5f0d76a6" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.027">
+    <testcase name="Response time under 2 s" time="0.027" classname="TcReg001PartialWeekIsNotACloseAsofWednesday"/>
+    <testcase name="TC-REG-001 status 200" time="0.027" classname="TcReg001PartialWeekIsNotACloseAsofWednesday"/>
+    <testcase name="TC-REG-001 last weekly close is the previous Friday" time="0.027" classname="TcReg001PartialWeekIsNotACloseAsofWednesday"/>
+  </testsuite>
+  <testsuite name="TC-REG-003 Complete week is kept" id="f5f6ae7b-4eca-4e80-a498-12b177f28550" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.024">
+    <testcase name="Response time under 2 s" time="0.024" classname="TcReg003CompleteWeekIsKept"/>
+    <testcase name="TC-REG-003 status 200" time="0.024" classname="TcReg003CompleteWeekIsKept"/>
+    <testcase name="TC-REG-003 last weekly close is Friday 2026-09-18" time="0.024" classname="TcReg003CompleteWeekIsKept"/>
+  </testsuite>
+  <testsuite name="TC-API-003 Friday holiday closes the week on Thursday" id="10154616-7017-4d93-8f06-b9e46ed23389" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="Response time under 2 s" time="0.009" classname="TcApi003FridayHolidayClosesTheWeekOnThursday"/>
+    <testcase name="TC-API-003 status 200" time="0.009" classname="TcApi003FridayHolidayClosesTheWeekOnThursday"/>
+    <testcase name="TC-API-003 weekly dates" time="0.009" classname="TcApi003FridayHolidayClosesTheWeekOnThursday"/>
+  </testsuite>
+  <testsuite name="TC-NUM-009 RSI of a steady rise is 100" id="8d726a29-d002-4129-a281-375e4ef15029" timestamp="2026-10-09T00:50:40.106Z" tests="3" failures="0" errors="0" time="0.007">
+    <testcase name="Response time under 2 s" time="0.007" classname="TcNum009RsiOfASteadyRiseIs100"/>
+    <testcase name="TC-NUM-009 status 200" time="0.007" classname="TcNum009RsiOfASteadyRiseIs100"/>
+    <testcase name="TC-NUM-009 last RSI 100 and first value after 14 changes" time="0.007" classname="TcNum009RsiOfASteadyRiseIs100"/>
+  </testsuite>
+  <testsuite name="TC-API-010 Unknown route uses the envelope" id="aff511b4-a271-4ada-9cc3-755e3bd2d3e0" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.002">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.002" classname="TcApi010UnknownRouteUsesTheEnvelope"/>
+    <testcase name="Response time under 2 s" time="0.002" classname="TcApi010UnknownRouteUsesTheEnvelope"/>
+    <testcase name="TC-API-010 status 404" time="0.002" classname="TcApi010UnknownRouteUsesTheEnvelope"/>
+    <testcase name="TC-API-010 code NOT_FOUND" time="0.002" classname="TcApi010UnknownRouteUsesTheEnvelope"/>
+  </testsuite>
+  <testsuite name="TC-API-010 Wrong method uses the envelope" id="261c812d-1337-408b-baea-9cf79a10f856" timestamp="2026-10-09T00:50:40.106Z" tests="4" failures="0" errors="0" time="0.002">
+    <testcase name="Error body follows the envelope (REQ-API-02)" time="0.002" classname="TcApi010WrongMethodUsesTheEnvelope"/>
+    <testcase name="Response time under 2 s" time="0.002" classname="TcApi010WrongMethodUsesTheEnvelope"/>
+    <testcase name="TC-API-010 status 405" time="0.002" classname="TcApi010WrongMethodUsesTheEnvelope"/>
+    <testcase name="TC-API-010 code METHOD_NOT_ALLOWED" time="0.002" classname="TcApi010WrongMethodUsesTheEnvelope"/>
+  </testsuite>
+</testsuites>
