@@ -112,22 +112,23 @@ def macd(close: pd.Series, cfg: MACDConfig = MACDConfig()) -> pd.DataFrame:
 
 def crossovers(df: pd.DataFrame, rel_tol: float = 1e-9) -> pd.DataFrame:
     """
-    bullish_cross / bearish_cross (MACD vs signal) and zero_up / zero_down (MACD vs 0).
+    bullish_cross: histogram goes from <= 0 to > 0; bearish_cross: from >= 0 to < 0.
+    zero_up / zero_down: the same for the MACD line against zero.
 
-    Values within rel_tol x the largest close count as zero, and an event needs a
-    sign change between two non-zero values. Without this, rounding noise around
-    zero (about 1e-15) produced false events (BUG-M01).
+    Values within rel_tol x the largest close count as exactly zero. Without this,
+    rounding noise around zero (about 1e-15) produced false events (BUG-M01).
     """
     tol = rel_tol * max(1.0, float(np.nanmax(np.abs(df["close"].to_numpy()))))
 
-    def changes(x: pd.Series):
-        sign = pd.Series(np.where(x > tol, 1.0, np.where(x < -tol, -1.0, np.nan)), index=x.index)
+    def crossings(x: pd.Series):
+        sign = pd.Series(np.where(x > tol, 1.0, np.where(x < -tol, -1.0, 0.0)), index=x.index)
         sign[x.isna()] = np.nan
-        before = sign.ffill().shift(1)
-        return (sign == 1) & (before == -1), (sign == -1) & (before == 1)
+        prev = sign.shift(1)
+        ok = sign.notna() & prev.notna()
+        return ok & (prev <= 0) & (sign > 0), ok & (prev >= 0) & (sign < 0)
 
-    bull, bear = changes(df["hist"])
-    up, down = changes(df["macd"])
+    bull, bear = crossings(df["hist"])
+    up, down = crossings(df["macd"])
     events = []
     for mask, label in ((bull, "bullish_cross"), (bear, "bearish_cross"), (up, "zero_up"), (down, "zero_down")):
         for ts in df.index[mask]:

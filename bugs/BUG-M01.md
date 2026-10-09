@@ -33,7 +33,7 @@ Any flat or perfectly steady stretch can produce false buy and sell signals. Rea
 
 The detector compared the raw histogram with zero (`h_prev <= 0 and h > 0`), so the sign of rounding noise decided the event.
 
-Fix: values within 1e-9 times the largest close are treated as zero, and a cross is reported only when the sign changes between two non-zero values.
+Fix: values within 1e-9 times the largest close are treated as exactly zero before applying the same rule. A first attempt that also required a sign change between two non-zero values was rejected by TC-NUM-010 itself: it hid the genuine cross at the turn, where the histogram leaves zero for the first time.
 
 ## Verification
 
