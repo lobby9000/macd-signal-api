@@ -64,8 +64,10 @@ def test_TC_NUM_007_seed_difference_decays_by_one_minus_alpha(client):
     a = values(client.post("/v1/macd", json=payload(x, seed="sma")), "ma_fast")
     b = values(client.post("/v1/macd", json=payload(x, seed="first")), "ma_fast")
     d = a[11:] - b[11:]
+    d = d[np.abs(d) > 1e-6]  # below this the difference is dominated by float rounding
     ratio = d[1:] / d[:-1]
-    assert np.allclose(ratio, 1 - 2 / 13, atol=1e-9)
+    assert len(ratio) > 30
+    assert np.allclose(ratio, 1 - 2 / 13, atol=1e-7)
 
 
 def test_TC_NUM_008_hand_example_macd_3_6_3(client):
@@ -105,3 +107,8 @@ def test_TC_NUM_010_events_on_a_known_crossing(client):
     assert "bullish_cross" in kinds and "zero_up" in kinds
     first_bull = next(e for e in r["events"] if e["event"] == "bullish_cross")
     assert first_bull["date"] > r["series"][59]["date"]  # after the turn, never before
+
+
+def test_TC_NUM_011_flat_prices_produce_no_events(client):
+    r = client.post("/v1/macd", json=payload([25.40] * 40)).json()
+    assert r["events"] == []
