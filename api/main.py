@@ -15,7 +15,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from engine import indicators as ind
 
-VERSION = "1.0.0-rc1"
+VERSION = "1.0.0"
 app = FastAPI(title="MACD Signal API", version=VERSION)
 
 

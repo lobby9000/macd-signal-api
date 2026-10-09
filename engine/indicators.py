@@ -16,6 +16,7 @@ Changes from the original module, both from defects found with real data:
   that date, so a partial period is never counted as a close (R-01).
 * describe_last reads columns by key; `row.hist` returned the pandas method
   Series.hist instead of the value (R-02).
+* crossovers ignores rounding noise around zero (BUG-M01).
 """
 
 from __future__ import annotations
@@ -109,19 +110,26 @@ def macd(close: pd.Series, cfg: MACDConfig = MACDConfig()) -> pd.DataFrame:
                          "macd": line, "signal": signal, "hist": line - signal})
 
 
-def crossovers(df: pd.DataFrame) -> pd.DataFrame:
-    """bullish_cross / bearish_cross (MACD vs signal) and zero_up / zero_down (MACD vs 0)."""
-    h, h_prev = df["hist"], df["hist"].shift(1)
-    m, m_prev = df["macd"], df["macd"].shift(1)
-    ok_h = h.notna() & h_prev.notna()
-    ok_m = m.notna() & m_prev.notna()
+def crossovers(df: pd.DataFrame, rel_tol: float = 1e-9) -> pd.DataFrame:
+    """
+    bullish_cross / bearish_cross (MACD vs signal) and zero_up / zero_down (MACD vs 0).
+
+    Values within rel_tol x the largest close count as zero, and an event needs a
+    sign change between two non-zero values. Without this, rounding noise around
+    zero (about 1e-15) produced false events (BUG-M01).
+    """
+    tol = rel_tol * max(1.0, float(np.nanmax(np.abs(df["close"].to_numpy()))))
+
+    def changes(x: pd.Series):
+        sign = pd.Series(np.where(x > tol, 1.0, np.where(x < -tol, -1.0, np.nan)), index=x.index)
+        sign[x.isna()] = np.nan
+        before = sign.ffill().shift(1)
+        return (sign == 1) & (before == -1), (sign == -1) & (before == 1)
+
+    bull, bear = changes(df["hist"])
+    up, down = changes(df["macd"])
     events = []
-    for mask, label in (
-        (ok_h & (h_prev <= 0) & (h > 0), "bullish_cross"),
-        (ok_h & (h_prev >= 0) & (h < 0), "bearish_cross"),
-        (ok_m & (m_prev <= 0) & (m > 0), "zero_up"),
-        (ok_m & (m_prev >= 0) & (m < 0), "zero_down"),
-    ):
+    for mask, label in ((bull, "bullish_cross"), (bear, "bearish_cross"), (up, "zero_up"), (down, "zero_down")):
         for ts in df.index[mask]:
             events.append({"date": ts, "event": label})
     out = pd.DataFrame(events, columns=["date", "event"])

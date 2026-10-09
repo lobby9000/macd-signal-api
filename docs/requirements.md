@@ -12,7 +12,7 @@ already cross-validated against an Excel workbook to within 5e-13.
 | REQ-NUM-01 | EMA uses alpha = 2/(N+1). With `seed=sma` the first value, at t = N, is the SMA of the first N closes. With `seed=first` it is the first close (same as pandas `ewm(adjust=False)`). |
 | REQ-NUM-02 | MACD = MA(fast) - MA(slow). Signal = MA(signal) of the MACD series, starting at its first valid value. Histogram = MACD - Signal. `kind=sma` uses simple averages for all three. |
 | REQ-NUM-03 | With SMA seeding the first signal value appears at t = slow + signal - 1 (34 for 12/26/9). Earlier values are `null`. |
-| REQ-NUM-04 | Events: `bullish_cross` when the histogram goes from <= 0 to > 0, `bearish_cross` from >= 0 to < 0, `zero_up` and `zero_down` when the MACD crosses zero. |
+| REQ-NUM-04 | Events: `bullish_cross` when the histogram turns from negative to positive, `bearish_cross` from positive to negative, `zero_up` and `zero_down` when the MACD does the same. Values within 1e-9 times the largest close count as zero, and an event needs a sign change between two non-zero values (BUG-M01). |
 | REQ-NUM-05 | RSI uses Wilder smoothing by default (first average arithmetic, then alpha = 1/N) or a simple rolling mean with `method=simple`. With no movement at all the RSI is 50. |
 
 ## Resampling
