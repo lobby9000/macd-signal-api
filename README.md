@@ -80,3 +80,9 @@ Built with AI assistance (Claude). The defect above was found by the test suite,
 not planted.
 
 Luis A. Quiroz
+
+Licence: [MIT](LICENSE)
+
+---
+
+Part of the portfolio of Luis Ángel Quiroz López · [lobby9000.github.io](https://lobby9000.github.io) · [LinkedIn](https://www.linkedin.com/in/llqq) · [GitHub](https://github.com/lobby9000)
