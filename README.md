@@ -8,6 +8,8 @@ this needs: numbers checked against independent references, a contract checked
 from the outside with Postman, and regression tests for the defects real market
 data exposed in the toolkit.
 
+**Try it in your browser:** the [`api bug` demo](https://lobby9000.github.io/professional.html?app=terminal&run=api%20bug) on my site replays BUG-M01 with the same arithmetic as the engine: three false crossovers on rc1, at periods 45, 50 and 55, and none after the fix. `api` returns a full `POST /v1/macd` response.
+
 ## Results
 
 | | |
